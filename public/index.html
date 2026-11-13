@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartTask Pro — Task Scheduler</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <section class="auth-screen" id="authScreen">
+    <div class="auth-brand"><span class="brand-mark"><i></i><i></i><i></i></span> smarttask <span class="brand-pro">PRO</span></div>
+    <div class="auth-card">
+      <div class="auth-kicker">YOUR PERSONAL COMMAND CENTER</div>
+      <h1 id="authTitle">Welcome back<span class="heading-dot">.</span></h1>
+      <p class="auth-subtitle" id="authSubtitle">Log in to continue managing your tasks.</p>
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab active" id="loginTab">Log in</button>
+        <button type="button" class="auth-tab" id="signupTab">Sign up</button>
+      </div>
+      <form id="authForm">
+        <label class="form-label hidden" id="nameField">Your name<input id="authName" type="text" placeholder="e.g. Simran" maxlength="40" /></label>
+        <label class="form-label">Email address<input id="authEmail" type="email" placeholder="you@example.com" autocomplete="username" required /></label>
+        <label class="form-label">Password<input id="authPassword" type="password" placeholder="At least 6 characters" autocomplete="current-password" minlength="6" required /></label>
+        <p class="auth-error hidden" id="authError"></p>
+        <button class="primary-button auth-submit" type="submit" id="authSubmit">Log in to SmartTask</button>
+      </form>
+      <div class="demo-credentials"><strong>Quick demo account</strong><span>Email: demo@smarttask.local</span><span>Password: demo123</span><button type="button" id="useDemoButton">Use demo account</button></div>
+      <p class="demo-note">Demo authentication only. Accounts are stored in this browser and are not suitable for real/private credentials.</p>
+    </div>
+    <div class="auth-footer">SMARTTASK PRO <b>•</b> PLAN BETTER. FINISH STRONGER.</div>
+  </section>
+  <div class="app-shell hidden" id="appShell">
+    <aside class="sidebar">
+      <a class="brand" href="#">
+        <span class="brand-mark"><i></i><i></i><i></i></span>
+        <span>smarttask<span class="brand-pro">PRO</span></span>
+      </a>
+      <div class="workspace-label">WORKSPACE</div>
+      <nav class="nav">
+        <button class="nav-item active" data-view="all"><span class="nav-icon">▦</span> Overview <span class="nav-count" id="allNavCount">0</span></button>
+        <button class="nav-item" data-view="today"><span class="nav-icon">◷</span> Today</button>
+        <button class="nav-item" data-view="upcoming"><span class="nav-icon">▤</span> Upcoming</button>
+        <button class="nav-item" data-view="completed"><span class="nav-icon">✓</span> Completed</button>
+      </nav>
+      <div class="side-divider"></div>
+      <div class="workspace-label">YOUR SPACE</div>
+      <button class="side-note workspace-switch" id="workspaceButton" type="button"><span class="dot purple"></span><span id="workspaceName">Personal workspace</span><span class="workspace-chevron">⌄</span></button>
+      <div class="sidebar-bottom">
+        <div class="upgrade-card">
+          <div class="sparkle">✦</div>
+          <strong>Make every day count.</strong>
+          <p>Small steps. Big momentum.</p>
+          <div class="upgrade-line"><span></span></div>
+          <small>YOUR PRODUCTIVITY HUB</small>
+        </div>
+        <div class="profile">
+          <div class="avatar" id="sideAvatar">P</div>
+          <div class="profile-copy"><strong id="profileName">My Workspace</strong><small id="profileEmail">Personal account</small></div>
+          <button class="more" id="profileMenuButton" type="button" aria-label="Open account menu" aria-expanded="false">···</button>
+          <div class="profile-menu hidden" id="profileMenu">
+            <div class="menu-user"><strong id="menuUserName">My Workspace</strong><small id="menuUserEmail">demo@smarttask.local</small></div>
+            <button type="button" data-menu-action="workspace">▦ <span>My Workspace</span></button>
+            <button type="button" data-menu-action="settings">⚙ <span>Settings & theme</span></button>
+            <button type="button" data-menu-action="account">♙ <span>Account details</span></button>
+            <div class="menu-separator"></div>
+            <button type="button" class="logout-menu-item" data-menu-action="logout">↪ <span>Log out</span></button>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="breadcrumb"><span>Workspace</span><b>/</b><strong id="breadcrumbTitle">Overview</strong></div>
+        <div class="top-actions">
+          <div class="date-chip"><span>◷</span><span id="currentDate">Today</span></div>
+          <button class="icon-button" id="themeButton" title="Toggle theme">☼</button>
+          <div class="top-avatar" id="topAvatar">P</div>
+        </div>
+      </header>
+
+      <section class="welcome-row">
+        <div>
+          <div class="eyebrow"><span class="live-dot"></span> YOUR PERSONAL COMMAND CENTER</div>
+          <h1 id="greeting">Good morning<span class="heading-dot">.</span></h1>
+          <p class="subheading">A clear plan creates a clear mind. Let's get things done.</p>
+        </div>
+        <button class="primary-button" id="addTaskButton"><span>＋</span> Add new task</button>
+      </section>
+
+      <section class="stats-grid">
+        <article class="stat-card stat-total">
+          <div class="stat-top"><span>Total tasks</span><span class="stat-icon">▦</span></div>
+          <div class="stat-value" id="totalTasks">0</div>
+          <div class="stat-foot"><span class="tiny-indicator violet"></span> All tasks in your workspace</div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top"><span>In progress</span><span class="stat-icon amber-icon">◷</span></div>
+          <div class="stat-value" id="pendingTasks">0</div>
+          <div class="stat-foot"><span class="tiny-indicator amber"></span> Still on your list</div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top"><span>Completed</span><span class="stat-icon green-icon">✓</span></div>
+          <div class="stat-value" id="completedTasks">0</div>
+          <div class="stat-foot"><span class="tiny-indicator green"></span> Tasks crossed off</div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top"><span>Overdue</span><span class="stat-icon red-icon">!</span></div>
+          <div class="stat-value" id="overdueTasks">0</div>
+          <div class="stat-foot"><span class="tiny-indicator red"></span> Need your attention</div>
+        </article>
+      </section>
+
+      <section class="content-grid">
+        <div class="task-panel panel">
+          <div class="panel-heading">
+            <div><div class="section-kicker">STAY ON TRACK</div><h2 id="taskHeading">Your tasks</h2></div>
+            <div class="task-controls">
+              <label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Search tasks..." /></label>
+              <select id="sortSelect" aria-label="Sort tasks">
+                <option value="deadline">Deadline</option>
+                <option value="priority">Priority</option>
+                <option value="created">Recently added</option>
+              </select>
+            </div>
+          </div>
+          <div class="filter-row">
+            <button class="filter-chip active" data-filter="all">All tasks</button>
+            <button class="filter-chip" data-filter="high">High priority</button>
+            <button class="filter-chip" data-filter="medium">Medium</button>
+            <button class="filter-chip" data-filter="low">Low</button>
+          </div>
+          <div class="task-list" id="taskList"></div>
+          <div class="empty-state hidden" id="emptyState">
+            <div class="empty-illustration">✦</div>
+            <h3>Nothing on your plate.</h3>
+            <p>Add a task and turn your plans into progress.</p>
+            <button class="secondary-button" id="emptyAddButton">＋ Create your first task</button>
+          </div>
+          <div class="list-footer"><span id="showingCount">Showing 0 tasks</span><span>Sorted by <b id="sortLabel">deadline</b></span></div>
+        </div>
+
+        <aside class="right-column">
+          <div class="panel focus-panel">
+            <div class="panel-heading compact"><div><div class="section-kicker">YOUR MOMENTUM</div><h2>Focus overview</h2></div><span class="focus-symbol">✧</span></div>
+            <div class="progress-wrap">
+              <div class="progress-ring" id="progressRing"><div class="ring-inner"><strong id="progressPercent">0%</strong><small>completed</small></div></div>
+              <div class="progress-copy"><strong id="progressTitle">You're just getting started</strong><p id="progressText">Every completed task is a win. Keep building momentum.</p></div>
+            </div>
+            <div class="mini-stats"><div><strong id="miniDone">0</strong><span>Done</span></div><div><strong id="miniLeft">0</strong><span>To do</span></div><div><strong id="miniRate">0%</strong><span>Progress</span></div></div>
+          </div>
+
+          <div class="panel deadline-panel">
+            <div class="panel-heading compact"><div><div class="section-kicker">DON'T MISS A BEAT</div><h2>Coming up</h2></div><span class="calendar-symbol">▦</span></div>
+            <div id="upcomingList" class="upcoming-list"></div>
+          </div>
+
+          <div class="quote-card">
+            <div class="quote-mark">“</div>
+            <p>Focus on being productive instead of busy.</p>
+            <span>— TIM FERRISS</span>
+            <div class="quote-orb orb-one"></div><div class="quote-orb orb-two"></div>
+          </div>
+        </aside>
+      </section>
+      <footer class="app-footer"><span>SMARTTASK PRO <b>•</b> BUILT FOR BETTER DAYS</span><span>Frontend demo · Data saved in this browser</span></footer>
+    </main>
+  </div>
+
+  <div class="modal-backdrop hidden" id="taskModal">
+    <div class="modal">
+      <div class="modal-top"><div><div class="section-kicker">MAKE IT HAPPEN</div><h2 id="modalTitle">Create a task</h2></div><button class="close-button" id="closeModal">×</button></div>
+      <form id="taskForm">
+        <input type="hidden" id="taskId" />
+        <label class="form-label">Task name<input id="taskName" type="text" placeholder="e.g. Complete DSA assignment" maxlength="80" required /></label>
+        <label class="form-label">Description <span class="optional">(optional)</span><textarea id="taskDescription" rows="3" placeholder="Add a little context..."></textarea></label>
+        <div class="form-row">
+          <label class="form-label">Deadline<input id="taskDeadline" type="date" required /></label>
+          <label class="form-label">Priority<select id="taskPriority"><option value="high">High priority</option><option value="medium" selected>Medium priority</option><option value="low">Low priority</option></select></label>
+        </div>
+        <div class="form-actions"><button type="button" class="secondary-button" id="cancelModal">Cancel</button><button type="submit" class="primary-button"><span>＋</span> Save task</button></div>
+      </form>
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script src="script.js"></script>
+</body>
+</html>

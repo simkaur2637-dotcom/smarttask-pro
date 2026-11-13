@@ -1,0 +1,6 @@
+*.exe
+*.o
+.venv
+.git
+README.txt
+API_TESTS.txt

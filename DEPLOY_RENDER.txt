@@ -1,0 +1,50 @@
+SMARTTASK PRO - RENDER DEPLOYMENT GUIDE
+
+A) IMPORTANT PROJECT NOTES
+- This package includes a portable C++17 server and a Dockerfile for Linux hosting.
+- Local Windows run still works with run.bat.
+- Render supplies the PORT environment variable; the server listens on that port and on 0.0.0.0.
+- The demo login/signup is browser-local demo authentication, NOT production-secure authentication.
+- All visitors currently share the same backend tasks.json list. Do not enter private/personal data.
+- Render free web services can spin down after inactivity. The first visit after inactivity may take around a minute.
+- Render's default filesystem is ephemeral. tasks.json data can be lost on restart/redeploy unless a persistent disk or database is configured.
+
+B) PUSH PROJECT TO GITHUB
+1. Create/sign in to https://github.com
+2. Create a NEW repository, e.g. smarttask-pro. For a college demo, Public is simplest.
+3. Extract this ZIP.
+4. Open the inner SmartTaskPro_FullProject folder in VS Code.
+5. Open Terminal > New Terminal and run:
+   git init
+   git add .
+   git commit -m "Prepare SmartTask Pro for deployment"
+   git branch -M main
+   git remote add origin https://github.com/YOUR-USERNAME/smarttask-pro.git
+   git push -u origin main
+6. Replace YOUR-USERNAME with your actual GitHub username. GitHub may ask you to sign in.
+
+C) DEPLOY ON RENDER
+1. Visit https://render.com and sign up / sign in.
+2. Choose New + > Web Service.
+3. Connect GitHub and select the smarttask-pro repository.
+4. For Runtime/Language choose Docker.
+5. Set Root Directory to SmartTaskPro_FullProject ONLY if you uploaded the outer extracted folder/repository contains this project as a subfolder. If the repository root itself contains backend.cpp, Dockerfile, and public/, leave Root Directory blank.
+6. Choose the available Free plan for a classroom demo.
+7. Click Create Web Service / Deploy.
+8. Wait for the deploy status to become Live.
+9. Open the onrender.com URL shown on the Render service page.
+
+D) TEST
+- Open https://YOUR-SERVICE.onrender.com
+- Demo login:
+  Email: demo@smarttask.local
+  Password: demo123
+- Test add/edit/delete/complete tasks and refresh.
+
+E) LOCAL RUN ON WINDOWS
+Run:
+   .\run.bat
+Then open:
+   http://localhost:8080
+
+This deployment is suitable for a classroom demonstration, not production use. To make it production-ready, replace browser-only demo auth with server-side hashed passwords, isolate tasks by user, validate requests, and use a persistent database.

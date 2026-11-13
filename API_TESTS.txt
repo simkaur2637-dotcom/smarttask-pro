@@ -1,0 +1,9 @@
+SMARTTASK PRO API QUICK TESTS
+
+Open in browser:
+  http://localhost:8080/api/health
+  http://localhost:8080/api/tasks
+  http://localhost:8080/api/schedule
+
+The main app sends data automatically when you add, edit, complete, or delete a task.
+After a task change, check tasks.json in the project folder to see saved data.
